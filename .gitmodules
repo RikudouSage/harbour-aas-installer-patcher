@@ -1,0 +1,6 @@
+[submodule "third_party/abx"]
+	path = third_party/abx
+	url = https://github.com/rhythmcache/android-xml-converter.git
+[submodule "third_party/pugixml"]
+	path = third_party/pugixml
+	url = https://github.com/zeux/pugixml.git
