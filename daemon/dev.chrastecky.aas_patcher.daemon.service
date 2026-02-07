@@ -1,0 +1,5 @@
+[D-BUS Service]
+Name=dev.chrastecky.aas_patcher.daemon
+Exec=/usr/libexec/harbour-aas-installer-patcher-daemon
+User=root
+SystemdService=harbour-aas-installer-patcher-daemon.service

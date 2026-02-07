@@ -36,6 +36,10 @@ desktop-file-install --delete-original         --dir %{buildroot}%{_datadir}/app
 %files
 %defattr(-,root,root,-)
 %{_bindir}/%{name}
+%{_libexecdir}/harbour-aas-installer-patcher-daemon
 %{_datadir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
+%{_datadir}/dbus-1/system-services/dev.chrastecky.aas_patcher.daemon.service
+%{_unitdir}/harbour-aas-installer-patcher-daemon.service
+%{_datadir}/polkit-1/actions/dev.chrastecky.aas_patcher.daemon.policy

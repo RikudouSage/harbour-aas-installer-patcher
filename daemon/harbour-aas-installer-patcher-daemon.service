@@ -1,0 +1,10 @@
+[Unit]
+Description=AAS Installer Patcher Daemon
+
+[Service]
+Type=dbus
+BusName=dev.chrastecky.aas_patcher.daemon
+ExecStart=/usr/libexec/harbour-aas-installer-patcher-daemon
+
+[Install]
+WantedBy=multi-user.target
