@@ -8,14 +8,37 @@
 #include <QFileInfo>
 #include <QSaveFile>
 #include <QDebug>
+#include <QCoreApplication>
+#include <QTimer>
 
 namespace {
 constexpr char kActionExists[] = "dev.chrastecky.aas_patcher.daemon.file_exists";
 constexpr char kActionRead[] = "dev.chrastecky.aas_patcher.daemon.read_file";
 constexpr char kActionWrite[] = "dev.chrastecky.aas_patcher.daemon.write_file";
+constexpr int kIdleShutdownTimeoutMs = 60'000;
+
+QTimer *idleShutdownTimer()
+{
+    static QTimer *timer = nullptr;
+    if (timer == nullptr) {
+        timer = new QTimer(qApp);
+        timer->setSingleShot(true);
+        QObject::connect(timer, &QTimer::timeout, []() {
+            qInfo() << "No DBus requests received, shutting down daemon";
+            QCoreApplication::quit();
+        });
+    }
+    return timer;
+}
+
+void armIdleShutdownTimer()
+{
+    idleShutdownTimer()->start(kIdleShutdownTimeoutMs);
+}
 } // namespace
 
 bool Daemon::fileExists(const QString &path) {
+    armIdleShutdownTimer();
     if (!authorize(kActionExists)) {
         return false;
     }
@@ -23,6 +46,7 @@ bool Daemon::fileExists(const QString &path) {
 }
 
 QByteArray Daemon::readFile(const QString &path) {
+    armIdleShutdownTimer();
     if (!authorize(kActionRead)) {
         return {};
     }
@@ -35,6 +59,7 @@ QByteArray Daemon::readFile(const QString &path) {
 }
 
 bool Daemon::writeFile(const QString &path, const QByteArray &data) {
+    armIdleShutdownTimer();
     if (!authorize(kActionWrite)) {
         return false;
     }
