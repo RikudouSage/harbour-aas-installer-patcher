@@ -7,6 +7,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QSaveFile>
+#include <QDebug>
 
 namespace {
 constexpr char kActionExists[] = "dev.chrastecky.aas_patcher.daemon.file_exists";
@@ -82,14 +83,20 @@ bool Daemon::polkitCheckAuthorization(const QString &sender, const QString &acti
     subject << QString("system-bus-name") << subjectDetails;
     subject.endStructure();
 
-    QVariantMap details;
-    const quint32 flags = 1; // AllowUserInteraction
+    const QMap<QString, QString> details;
+    const quint32 flags = 0; // No user interaction in daemon context
     const QString cancellationId;
 
-    msg << QVariant::fromValue(subject) << actionId << details << flags << cancellationId;
+    msg << QVariant::fromValue(subject)
+        << actionId
+        << QVariant::fromValue(details)
+        << flags
+        << cancellationId;
 
     const auto reply = QDBusConnection::systemBus().call(msg);
     if (reply.type() == QDBusMessage::ErrorMessage) {
+        qWarning() << "Polkit call failed for action" << actionId << "sender" << sender << ":"
+                   << reply.errorName() << reply.errorMessage();
         return false;
     }
 
@@ -106,5 +113,12 @@ bool Daemon::polkitCheckAuthorization(const QString &sender, const QString &acti
     arg >> isAuthorized >> isChallenge >> resultDetails;
     arg.endStructure();
 
-    return isAuthorized && !isChallenge;
+    if (!isAuthorized) {
+        qWarning() << "Polkit denied action" << actionId
+                   << "sender" << sender
+                   << "challenge" << isChallenge
+                   << "details" << resultDetails;
+    }
+
+    return isAuthorized;
 }

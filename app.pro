@@ -1,5 +1,6 @@
 TARGET = harbour-aas-installer-patcher
 
+QT += dbus
 CONFIG += sailfishapp c++20
 QMAKE_CXXFLAGS += -std=gnu++20
 
@@ -49,5 +50,4 @@ CONFIG += sailfishapp_i18n sailfishapp_i18n_idbased
 # modify the localized app name in the the .desktop file.
 TRANSLATIONS += translations/harbour-aas-installer-patcher-en.ts \
                 translations/harbour-aas-installer-patcher-cs.ts
-
 
