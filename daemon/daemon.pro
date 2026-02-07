@@ -1,5 +1,5 @@
 TEMPLATE = app
-TARGET = harbour-aas-installer-patcher-helper
+TARGET = harbour-aas-installer-patcher-daemon
 
 QT += core dbus
 CONFIG += console c++20
@@ -11,6 +11,6 @@ SOURCES += \
     main.cpp
 
 # Install location (typical for root helpers)
-target.path = /usr/libexec/harbour-aas-installer-patcher
+target.path = /usr/libexec/harbour-aas-installer-patcher-daemon
 INSTALLS += target
 
