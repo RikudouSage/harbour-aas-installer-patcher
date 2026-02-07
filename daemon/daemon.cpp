@@ -69,6 +69,26 @@ bool Daemon::authorize(const QString &actionId) {
 }
 
 bool Daemon::polkitCheckAuthorization(const QString &sender, const QString &actionId) {
+    QDBusMessage pidMsg = QDBusMessage::createMethodCall(
+        "org.freedesktop.DBus",
+        "/org/freedesktop/DBus",
+        "org.freedesktop.DBus",
+        "GetConnectionUnixProcessID");
+    pidMsg << sender;
+    const auto pidReply = QDBusConnection::systemBus().call(pidMsg);
+    if (pidReply.type() == QDBusMessage::ErrorMessage || pidReply.arguments().isEmpty()) {
+        qWarning() << "Failed to resolve sender PID for" << sender << ":" << pidReply.errorName() << pidReply.errorMessage();
+        return false;
+    }
+
+    bool ok = false;
+    const quint32 pid = pidReply.arguments().at(0).toUInt(&ok);
+    if (!ok || pid == 0) {
+        qWarning() << "Invalid sender PID for" << sender;
+        return false;
+    }
+    qDebug() << "Polkit subject resolved for action" << actionId << "sender" << sender << "pid" << pid;
+
     QDBusMessage msg = QDBusMessage::createMethodCall(
         "org.freedesktop.PolicyKit1",
         "/org/freedesktop/PolicyKit1/Authority",
@@ -76,14 +96,17 @@ bool Daemon::polkitCheckAuthorization(const QString &sender, const QString &acti
         "CheckAuthorization");
 
     QVariantMap subjectDetails;
-    subjectDetails.insert("name", sender);
+    subjectDetails.insert("pid", pid);
+    subjectDetails.insert("start-time", static_cast<qulonglong>(0));
 
     QDBusArgument subject;
     subject.beginStructure();
-    subject << QString("system-bus-name") << subjectDetails;
+    subject << QString("unix-process") << subjectDetails;
     subject.endStructure();
 
-    const QMap<QString, QString> details;
+    const QMap<QString, QString> details{
+        {QStringLiteral("AllowUserInteraction"), QStringLiteral("true")}
+    };
     const quint32 flags = 1; // Allow user interaction via polkit agent
     const QString cancellationId;
 
@@ -93,7 +116,17 @@ bool Daemon::polkitCheckAuthorization(const QString &sender, const QString &acti
         << flags
         << cancellationId;
 
-    const auto reply = QDBusConnection::systemBus().call(msg);
+    QDBusMessage reply;
+    for (int attempt = 0; attempt < 2; ++attempt) {
+        reply = QDBusConnection::systemBus().call(msg, QDBus::Block, 600000);
+        if (reply.type() == QDBusMessage::ErrorMessage &&
+            reply.errorName() == QLatin1String("org.freedesktop.DBus.Error.ServiceUnknown")) {
+            qWarning() << "Polkit service unavailable, retrying authorization call";
+            continue;
+        }
+        break;
+    }
+
     if (reply.type() == QDBusMessage::ErrorMessage) {
         qWarning() << "Polkit call failed for action" << actionId << "sender" << sender << ":"
                    << reply.errorName() << reply.errorMessage();

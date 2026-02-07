@@ -3,18 +3,9 @@ Type=Application
 X-Nemo-Application-Type=silica-qt5
 Icon=harbour-aas-installer-patcher
 Exec=harbour-aas-installer-patcher
-Name=harbour-aas-installer-patcher
-# translation example:
-# your app name in German locale (de)
-#
-# Remember to comment out the following line, if you do not want to use
-# a different app name in German locale (de).
-Name[de]=harbour-aas-installer-patcher
+Name=AAS Installer Patcher
 
 [X-Sailjail]
-# Replace with your organization as a reverse domain name
-OrganizationName=org.myorg
-# ApplicationName does not have to be identical to Name
+OrganizationName=dev.chrastecky
 ApplicationName=aas-installer-patcher
-# Add the required permissions here
-Permissions=
+Sandboxing=Disabled
