@@ -7,9 +7,9 @@
     <description>Check if a file exists</description>
     <message>Authentication is required to check if a file exists.</message>
     <defaults>
-      <allow_any>yes</allow_any>
-      <allow_inactive>yes</allow_inactive>
-      <allow_active>yes</allow_active>
+      <allow_any>auth_admin_keep</allow_any>
+      <allow_inactive>auth_admin_keep</allow_inactive>
+      <allow_active>auth_admin_keep</allow_active>
     </defaults>
   </action>
 
@@ -17,9 +17,9 @@
     <description>Read a file</description>
     <message>Authentication is required to read a file.</message>
     <defaults>
-      <allow_any>yes</allow_any>
-      <allow_inactive>yes</allow_inactive>
-      <allow_active>yes</allow_active>
+      <allow_any>auth_admin_keep</allow_any>
+      <allow_inactive>auth_admin_keep</allow_inactive>
+      <allow_active>auth_admin_keep</allow_active>
     </defaults>
   </action>
 
@@ -27,9 +27,9 @@
     <description>Write a file</description>
     <message>Authentication is required to write a file.</message>
     <defaults>
-      <allow_any>yes</allow_any>
-      <allow_inactive>yes</allow_inactive>
-      <allow_active>yes</allow_active>
+      <allow_any>auth_admin_keep</allow_any>
+      <allow_inactive>auth_admin_keep</allow_inactive>
+      <allow_active>auth_admin_keep</allow_active>
     </defaults>
   </action>
 </policyconfig>
