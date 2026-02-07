@@ -25,17 +25,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message id="checker.no_aas">
-        <location filename="../qml/pages/CheckerPage.qml" line="21"/>
+        <location filename="../qml/pages/CheckerPage.qml" line="37"/>
         <source>Could not detect the Android packages file (packages.xml) in any of the known paths. If you know where it is, you can provide the file manually below.</source>
         <translation type="unfinished"></translation>
     </message>
     <message id="checker.path_placeholder">
-        <location filename="../qml/pages/CheckerPage.qml" line="28"/>
+        <location filename="../qml/pages/CheckerPage.qml" line="44"/>
         <source>/path/to/packages.xml</source>
         <translation type="unfinished"></translation>
     </message>
     <message id="global.save">
-        <location filename="../qml/pages/CheckerPage.qml" line="38"/>
+        <location filename="../qml/pages/CheckerPage.qml" line="54"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>

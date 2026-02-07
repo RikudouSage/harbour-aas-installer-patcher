@@ -9,6 +9,10 @@
 
 AppManager::AppManager(AppSettings *settings, QObject *parent) : QObject(parent), m_settings(settings)
 {
+}
+
+void AppManager::initialize()
+{
     try {
         parseInstallers();
 
@@ -23,15 +27,11 @@ AppManager::AppManager(AppSettings *settings, QObject *parent) : QObject(parent)
                 const auto parsed = parseDesktopFile(path);
             }
         }
+        emit initialized();
     } catch (const QString &error) {
-        m_error = error;
+        emit errorOccurred(error);
         qDebug() << error;
     }
-}
-
-const QString AppManager::error() const
-{
-    return m_error;
 }
 
 bool AppManager::isAndroidDesktopFile(const QString &path) const

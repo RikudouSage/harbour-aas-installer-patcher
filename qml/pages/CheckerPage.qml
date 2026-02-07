@@ -15,6 +15,22 @@ DefaultPage {
         "/home/.android/data/system/packages.xml"
     ];
 
+    Connections {
+        target: appManager
+
+        onInitialized: {
+            safeCall(function() {
+                pageStack.replace("AppList.qml");
+            });
+        }
+
+        onErrorOccurred: {
+            safeCall(function() {
+                pageStack.replace("ErrorPage.qml", {error: error});
+            });
+        }
+    }
+
 
     StandardLabel {
         //% "Could not detect the Android packages file (packages.xml) in any of the known paths. If you know where it is, you can provide the file manually below."
@@ -37,6 +53,7 @@ DefaultPage {
         //% "Save"
         text: qsTrId("global.save")
         anchors.horizontalCenter: parent.horizontalCenter
+        visible: !loading
 
         onClicked: {
             loading = true;
@@ -46,19 +63,7 @@ DefaultPage {
     }
 
     Component.onCompleted: {
-        if (appManager.error) {
-            safeCall(function() {
-                pageStack.replace("ErrorPage.qml", {error: appManager.error});
-            });
-            return;
-        }
-
-        safeCall(function() {
-            if (settings.packagesXmlPath) {
-                pageStack.replace("AppList.qml");
-                return;
-            }
-
+        if (!settings.packagesXmlPath) {
             for (var index in potentialPaths) {
                 if (!potentialPaths.hasOwnProperty(index)) {
                     continue;
@@ -68,9 +73,13 @@ DefaultPage {
                     continue;
                 }
                 settings.packagesXmlPath = file;
-                pageStack.replace("AppList.qml");
+                appManager.initialize();
                 return;
             }
-        });
+
+            loading = false;
+        } else {
+            appManager.initialize();
+        }
     }
 }

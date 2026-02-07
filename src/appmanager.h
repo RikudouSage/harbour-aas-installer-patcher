@@ -9,16 +9,18 @@
 class AppManager : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString error READ error CONSTANT)
 public:
     explicit AppManager(AppSettings *settings, QObject *parent = nullptr);
-    const QString error() const;
+    Q_INVOKABLE void initialize();
+
+signals:
+    void errorOccurred(const QString &error);
+    void initialized();
 
 private:
     const AppSettings *m_settings;
     PackagesXmlHandler *packageXml = new PackagesXmlHandler(this);
     QMap<QString, QString> m_packageInstallerMap;
-    QString m_error;
     FileHelper *fileHelper = new FileHelper(this);
 
 private:
