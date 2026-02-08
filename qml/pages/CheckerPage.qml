@@ -103,7 +103,7 @@ DefaultPage {
     }
 
     StandardLabel {
-        //% "Android AppSupport is currently running. Stop it first, then retry."
+        //% "Android AppSupport is currently running. Stop it first before continuing."
         text: qsTrId("checker.aas_running")
         visible: !loading && appSupportRunning
     }

@@ -7,6 +7,7 @@ import "../js/arrays.js" as Arrays
 import "../js/objects.js" as Objects
 
 DefaultPage {
+    property bool appSupportRunning: app.appSupportRunning
     property var installers: {
         "com.android.vending": "Google Play",
         "com.aurora.store": "Aurora Store",
@@ -38,6 +39,12 @@ DefaultPage {
         }
     }
 
+    StandardLabel {
+        //% "Android AppSupport is currently running. Stop it first before continuing."
+        text: qsTrId("checker.aas_running")
+        visible: appSupportRunning
+    }
+
     Repeater {
         model: appsRaw
 
@@ -47,6 +54,7 @@ DefaultPage {
 
             width: root.width
             contentHeight: Theme.itemSizeMedium
+            visible: !appSupportRunning
 
             menu: ContextMenu {
                 Repeater {

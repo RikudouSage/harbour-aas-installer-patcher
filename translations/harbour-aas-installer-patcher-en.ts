@@ -61,8 +61,9 @@
         <translation>Success! %1 was successfully updated</translation>
     </message>
     <message id="checker.aas_running">
-        <source>Android AppSupport is currently running. Stop it first, then retry.</source>
-        <translation>Android AppSupport is currently running. Stop it first, then retry.</translation>
+        <source>Android AppSupport is currently running. Stop it first before continuing.</source>
+        <oldsource>Android AppSupport is currently running. Stop it first, then retry.</oldsource>
+        <translation>Android AppSupport is currently running. Stop it first before continuing.</translation>
     </message>
 </context>
 </TS>

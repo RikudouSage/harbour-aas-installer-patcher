@@ -61,7 +61,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message id="checker.aas_running">
-        <source>Android AppSupport is currently running. Stop it first, then retry.</source>
+        <source>Android AppSupport is currently running. Stop it first before continuing.</source>
+        <oldsource>Android AppSupport is currently running. Stop it first, then retry.</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>

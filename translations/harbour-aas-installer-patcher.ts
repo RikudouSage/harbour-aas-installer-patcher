@@ -15,33 +15,33 @@
         <translation type="unfinished"></translation>
     </message>
     <message id="app.package_installer">
-        <location filename="../qml/pages/AppList.qml" line="15"/>
+        <location filename="../qml/pages/AppList.qml" line="16"/>
         <source>Package Installer</source>
         <extracomment>The name of the default Android package installer</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message id="app_list.title">
-        <location filename="../qml/pages/AppList.qml" line="22"/>
+        <location filename="../qml/pages/AppList.qml" line="23"/>
         <source>App list</source>
         <translation type="unfinished"></translation>
     </message>
     <message id="app_list.failed_settings_installer">
-        <location filename="../qml/pages/AppList.qml" line="61"/>
+        <location filename="../qml/pages/AppList.qml" line="69"/>
         <source>Error: Failed setting the installer, looks like the app wasn&apos;t found</source>
         <translation type="unfinished"></translation>
     </message>
     <message id="app_list.failed_sync">
-        <location filename="../qml/pages/AppList.qml" line="67"/>
+        <location filename="../qml/pages/AppList.qml" line="75"/>
         <source>Error: Failed saving the updated installer map</source>
         <translation type="unfinished"></translation>
     </message>
     <message id="app_list.package_success">
-        <location filename="../qml/pages/AppList.qml" line="72"/>
+        <location filename="../qml/pages/AppList.qml" line="80"/>
         <source>Success! %1 was successfully updated</source>
         <translation type="unfinished"></translation>
     </message>
     <message id="app_item.installer">
-        <location filename="../qml/pages/AppList.qml" line="111"/>
+        <location filename="../qml/pages/AppList.qml" line="119"/>
         <source>Installer: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -76,8 +76,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message id="checker.aas_running">
+        <location filename="../qml/pages/AppList.qml" line="44"/>
         <location filename="../qml/pages/CheckerPage.qml" line="107"/>
-        <source>Android AppSupport is currently running. Stop it first, then retry.</source>
+        <source>Android AppSupport is currently running. Stop it first before continuing.</source>
+        <oldsource>Android AppSupport is currently running. Stop it first, then retry.</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
