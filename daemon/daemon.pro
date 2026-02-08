@@ -34,6 +34,10 @@ systemd_unit.path = /usr/lib/systemd/system
 INSTALLS += systemd_unit
 
 # polkit policy
-polkit_policy.files = dev.chrastecky.aas_patcher.daemon.policy
+CONFIG(debug, debug|release) {
+    polkit_policy.files = dev.chrastecky.aas_patcher.daemon.debug.policy
+} else {
+    polkit_policy.files = dev.chrastecky.aas_patcher.daemon.policy
+}
 polkit_policy.path = /usr/share/polkit-1/actions
 INSTALLS += polkit_policy

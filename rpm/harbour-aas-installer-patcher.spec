@@ -36,26 +36,16 @@ An app making it possible to change the installer of Android apps.
 desktop-file-install --delete-original         --dir %{buildroot}%{_datadir}/applications                %{buildroot}%{_datadir}/applications/*.desktop
 
 %post
-# Reload unit files, then restart daemon so updated binaries/policy are effective.
-if [ -x /usr/bin/systemctl ]; then
-    /usr/bin/systemctl daemon-reload >/dev/null 2>&1 || :
-    /usr/bin/systemctl restart harbour-aas-installer-patcher-daemon.service >/dev/null 2>&1 || :
+systemctl daemon-reload || :
+if [ "$1" = "2" ]; then
+  #upgrade
+  systemctl stop harbour-aas-installer-patcher-daemon.service || :
 fi
 
-# Make D-Bus re-read system bus policy changes.
-if [ -x /usr/bin/dbus-send ]; then
-    /usr/bin/dbus-send --system --print-reply \
-      --dest=org.freedesktop.DBus / org.freedesktop.DBus.ReloadConfig >/dev/null 2>&1 || :
-fi
-
-# Refresh polkit policy cache so authorization changes apply immediately.
-if [ -x /usr/bin/pkill ]; then
-    /usr/bin/pkill -HUP polkitd >/dev/null 2>&1 || :
-fi
-
-%postun
-if [ -x /usr/bin/systemctl ]; then
-    /usr/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+%preun
+if [ "$1" = "0" ]; then
+  systemctl daemon-reload || :
+  systemctl stop harbour-aas-installer-patcher-daemon.service || :
 fi
 
 %files
@@ -68,4 +58,4 @@ fi
 %{_datadir}/dbus-1/system-services/dev.chrastecky.aas_patcher.daemon.service
 %{_datadir}/dbus-1/system.d/dev.chrastecky.aas_patcher.daemon.conf
 %{_unitdir}/harbour-aas-installer-patcher-daemon.service
-%{_datadir}/polkit-1/actions/dev.chrastecky.aas_patcher.daemon.policy
+%{_datadir}/polkit-1/actions/dev.chrastecky.aas_patcher.daemon*.policy

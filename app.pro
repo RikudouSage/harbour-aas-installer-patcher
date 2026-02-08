@@ -34,6 +34,7 @@ DISTFILES += qml/harbour-aas-installer-patcher.qml \
     rpm/harbour-aas-installer-patcher.changes.run.in \
     rpm/harbour-aas-installer-patcher.spec \
     translations/*.ts \
+    daemon/dev.chrastecky.aas_patcher.daemon.debug.policy \
     harbour-aas-installer-patcher.desktop
 
 INCLUDEPATH += third_party/pugixml/src
@@ -50,4 +51,3 @@ CONFIG += sailfishapp_i18n sailfishapp_i18n_idbased
 # modify the localized app name in the the .desktop file.
 TRANSLATIONS += translations/harbour-aas-installer-patcher-en.ts \
                 translations/harbour-aas-installer-patcher-cs.ts
-
