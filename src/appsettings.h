@@ -12,6 +12,7 @@ class AppSettings : public QObject
     Q_PROPERTY(QString language READ language WRITE setLanguage NOTIFY languageChanged)
     Q_PROPERTY(QString rawLanguage READ rawLanguage WRITE setRawLanguage NOTIFY rawLanguageChanged)
     Q_PROPERTY(QString packagesXmlPath READ packagesXmlPath WRITE setPackagesXmlPath NOTIFY packagesXmlPathChanged)
+    Q_PROPERTY(QString warningAcknowledged READ warningAcknowledged WRITE setWarningAcknowledged NOTIFY warningAcknowledgedChanged)
 public:
     explicit AppSettings(QObject *parent = nullptr);
     ~AppSettings();
@@ -22,11 +23,14 @@ public:
     void setRawLanguage(const QString &value);
     const QString packagesXmlPath() const;
     void setPackagesXmlPath(const QString &value);
+    const QString warningAcknowledged() const;
+    void setWarningAcknowledged(const QString &value);
 
 signals:
     void languageChanged();
     void rawLanguageChanged();
     void packagesXmlPathChanged();
+    void warningAcknowledgedChanged();
 
 private:
     void saveConfig(const QString &name, const QVariant &value);
@@ -39,6 +43,7 @@ private:
 
     QString prop_language;
     QString prop_packagesXmlPath;
+    QString prop_warningAcknowledged;
 };
 
 #endif // APPSETTINGS_H

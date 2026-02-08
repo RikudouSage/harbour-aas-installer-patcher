@@ -65,5 +65,18 @@
         <oldsource>Android AppSupport is currently running. Stop it first, then retry.</oldsource>
         <translation>Android AppSupport is currently running. Stop it first before continuing.</translation>
     </message>
+    <message id="warning.title">
+        <source>Warning</source>
+        <translation>Warning</translation>
+    </message>
+    <message id="warning.warning">
+        <source>&lt;p&gt;Warning: This app modifies the Android runtime which might lead to unexpected results. In the &lt;i&gt;worst case&lt;/i&gt; scenarion you may &lt;strong&gt;destroy your Android runtime&lt;/strong&gt; and you may have to &lt;strong&gt;install every app from scratch&lt;/strong&gt;&lt;/p&gt;&lt;br&gt;&lt;p&gt;That said, I myself use the app and consider it safe enough, but you should be aware of the risks.&lt;/p&gt;</source>
+        <oldsource>&lt;p&gt;Warning: This app modifies the Android runtime which might lead to unexpected results. In the &lt;em&gt;worst case&lt;/em&gt; scenarion you may &lt;strong&gt;destroy your Android runtime&lt;/strong&gt; and you may have to &lt;strong&gt;install every app from scratch&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;That said, I myself use the app and consider it safe enough, but you should be aware of the risks.&lt;/p&gt;</oldsource>
+        <translation>&lt;p&gt;Warning: This app modifies the Android runtime which might lead to unexpected results. In the &lt;i&gt;worst case&lt;/i&gt; scenarion you may &lt;strong&gt;destroy your Android runtime&lt;/strong&gt; and you may have to &lt;strong&gt;install every app from scratch&lt;/strong&gt;&lt;/p&gt;&lt;br&gt;&lt;p&gt;That said, I myself use the app and consider it safe enough, but you should be aware of the risks.&lt;/p&gt;</translation>
+    </message>
+    <message id="warning.acknowledge">
+        <source>Akcnowledge</source>
+        <translation>Akcnowledge</translation>
+    </message>
 </context>
 </TS>

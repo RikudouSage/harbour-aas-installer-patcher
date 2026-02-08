@@ -4,6 +4,7 @@ import Sailfish.Silica 1.0
 import "../components"
 
 DefaultPage {
+    readonly property string currentWarningVersion: 'v1'
     readonly property var potentialPaths: [
         "/home/.appsupport/instance/defaultuser/data/system/packages.xml",
         "/home/.android/data/system/packages.xml"
@@ -122,6 +123,15 @@ DefaultPage {
     }
 
     Component.onCompleted: {
+        if (settings.warningAcknowledged !== currentWarningVersion) {
+            safeCall(function() {
+                pageStack.replace("WarningPage.qml", {
+                    version: currentWarningVersion,
+                });
+            });
+            return;
+        }
+
         if (!settings.packagesXmlPath) {
             for (var index in potentialPaths) {
                 if (!potentialPaths.hasOwnProperty(index)) {

@@ -5,7 +5,7 @@ Page {
     property var _doAfterLoad: []
 
     function safeCall(callable) {
-        if (page.status === PageStatus.Active) {
+        if (page.status === PageStatus.Active && !pageStack.busy) {
             callable();
         } else {
             _doAfterLoad.push(callable);
@@ -23,8 +23,18 @@ Page {
     allowedOrientations: Orientation.All
 
     onStatusChanged: {
-        if (status === PageStatus.Active) {
+        if (page.status === PageStatus.Active && !pageStack.busy) {
             _flushQueue();
+        }
+    }
+
+    Connections {
+        target: pageStack
+
+        onBusyChanged: {
+            if (page.status === PageStatus.Active && !pageStack.busy) {
+                _flushQueue();
+            }
         }
     }
 }

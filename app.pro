@@ -33,6 +33,7 @@ DISTFILES += qml/harbour-aas-installer-patcher.qml \
     qml/pages/AppList.qml \
     qml/pages/CheckerPage.qml \
     qml/pages/ErrorPage.qml \
+    qml/pages/WarningPage.qml \
     qml/js/arrays.js \
     qml/js/objects.js \
     rpm/harbour-aas-installer-patcher.changes.in \

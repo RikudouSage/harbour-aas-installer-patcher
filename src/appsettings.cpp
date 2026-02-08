@@ -6,6 +6,7 @@ AppSettings::AppSettings(QObject *parent) : QObject(parent)
 {
     prop_language = settings->value("language", "").toString();
     prop_packagesXmlPath = settings->value("packages_xml_path", "").toString();
+    prop_warningAcknowledged = settings->value("warning_acknowledged", "").toString();
 }
 
 AppSettings::~AppSettings() {
@@ -64,4 +65,21 @@ void AppSettings::setPackagesXmlPath(const QString &value)
     prop_packagesXmlPath = value;
 
     emit packagesXmlPathChanged();
+}
+
+const QString AppSettings::warningAcknowledged() const
+{
+    return prop_warningAcknowledged;
+}
+
+void AppSettings::setWarningAcknowledged(const QString &value)
+{
+    if (value == prop_warningAcknowledged) {
+        return;
+    }
+
+    settings->setValue("warning_acknowledged", value);
+    prop_warningAcknowledged = value;
+
+    emit warningAcknowledgedChanged();
 }
