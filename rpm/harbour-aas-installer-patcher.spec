@@ -1,10 +1,10 @@
 Name:       harbour-aas-installer-patcher
 
 Summary:    AAS Installer Patcher
-Version:    0.9.0
+Version:    1.0.0
 Release:    1
-License:    LICENSE
-URL:        http://example.org/
+License:    MIT
+URL:        https://github.com/RikudouSage/harbour-aas-installer-patcher
 Source0:    %{name}-%{version}.tar.bz2
 Requires:   sailfishsilica-qt5 >= 0.10.9
 Requires:   sailfish-polkit-agent
