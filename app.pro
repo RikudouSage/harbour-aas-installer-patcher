@@ -24,6 +24,7 @@ HEADERS += \
 
 DISTFILES += qml/harbour-aas-installer-patcher.qml \
     qml/components/AasChecker.qml \
+    qml/components/DefaultDialog.qml \
     qml/components/DefaultPage.qml \
     qml/components/NotificationBanner.qml \
     qml/components/NotificationStack.qml \
@@ -32,6 +33,7 @@ DISTFILES += qml/harbour-aas-installer-patcher.qml \
     qml/cover/CoverPage.qml \
     qml/pages/AppList.qml \
     qml/pages/CheckerPage.qml \
+    qml/pages/DetailPage.qml \
     qml/pages/ErrorPage.qml \
     qml/pages/WarningPage.qml \
     qml/js/arrays.js \

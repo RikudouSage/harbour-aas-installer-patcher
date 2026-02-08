@@ -78,5 +78,43 @@
         <source>Akcnowledge</source>
         <translation>Akcnowledge</translation>
     </message>
+    <message id="detail.installer_id">
+        <source>Installer ID:</source>
+        <translation>Installer ID:</translation>
+    </message>
+    <message id="detail.installer_name">
+        <source>Installer:</source>
+        <translation>Installer:</translation>
+    </message>
+    <message id="detail.unknown_installer">
+        <source>Unknown</source>
+        <extracomment>Unknown installer, shown when the app is not installed</extracomment>
+        <translation>Unknown</translation>
+    </message>
+    <message id="detail.change_installer">
+        <source>Change installer</source>
+        <translation>Change installer</translation>
+    </message>
+    <message id="detail.installer">
+        <source>Installer</source>
+        <translation>Installer</translation>
+    </message>
+    <message id="detail.custom_installer">
+        <source>Custom</source>
+        <extracomment>Custom installer</extracomment>
+        <translation>Custom</translation>
+    </message>
+    <message id="detail.custom_installer_long">
+        <source>Custom installer</source>
+        <translation>Custom installer</translation>
+    </message>
+    <message id="global.cancel">
+        <source>Cancel</source>
+        <translation>Cancel</translation>
+    </message>
+    <message id="detail.package_id">
+        <source>Package ID:</source>
+        <translation>Package ID:</translation>
+    </message>
 </context>
 </TS>

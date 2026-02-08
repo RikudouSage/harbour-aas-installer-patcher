@@ -38,6 +38,10 @@ DefaultPage {
                 pageStack.replace("ErrorPage.qml", {error: error});
             });
         }
+
+        onAppsChanged: {
+            appsRaw = appManager.apps;
+        }
     }
 
     StandardLabel {
@@ -85,7 +89,28 @@ DefaultPage {
             }
 
             onClicked: {
+                const dialog = pageStack.push("DetailPage.qml", {
+                    app: packageData,
+                    appList: apps,
+                    defaultInstallers: installers,
+                });
+                var appManagerCopy = appManager;
+                dialog.accepted.connect(function() {
+                    if (!appManagerCopy.setInstaller(packageData.package, dialog.value)) {
+                        //% "Error: Failed setting the installer, looks like the app wasn't found"
+                        notificationStack.push(qsTrId("app_list.failed_settings_installer"), true);
+                        return;
+                    }
 
+                    if (!appManagerCopy.syncPackages()) {
+                        //% "Error: Failed saving the updated installer map"
+                        notificationStack.push(qsTrId("app_list.failed_sync"), true);
+                        return;
+                    }
+
+                    //% "Success! %1 was successfully updated"
+                    notificationStack.push(qsTrId("app_list.package_success").arg(packageData.name));
+                });
             }
 
             Image {

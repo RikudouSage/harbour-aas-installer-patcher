@@ -4,6 +4,7 @@
 <context>
     <name></name>
     <message id="global.loading">
+        <location filename="../qml/components/DefaultDialog.qml" line="9"/>
         <location filename="../qml/components/DefaultPage.qml" line="9"/>
         <location filename="../qml/pages/CheckerPage.qml" line="52"/>
         <source>Loading...</source>
@@ -26,22 +27,25 @@
         <translation type="unfinished"></translation>
     </message>
     <message id="app_list.failed_settings_installer">
-        <location filename="../qml/pages/AppList.qml" line="70"/>
+        <location filename="../qml/pages/AppList.qml" line="74"/>
+        <location filename="../qml/pages/AppList.qml" line="101"/>
         <source>Error: Failed setting the installer, looks like the app wasn&apos;t found</source>
         <translation type="unfinished"></translation>
     </message>
     <message id="app_list.failed_sync">
-        <location filename="../qml/pages/AppList.qml" line="76"/>
+        <location filename="../qml/pages/AppList.qml" line="80"/>
+        <location filename="../qml/pages/AppList.qml" line="107"/>
         <source>Error: Failed saving the updated installer map</source>
         <translation type="unfinished"></translation>
     </message>
     <message id="app_list.package_success">
-        <location filename="../qml/pages/AppList.qml" line="81"/>
+        <location filename="../qml/pages/AppList.qml" line="85"/>
+        <location filename="../qml/pages/AppList.qml" line="112"/>
         <source>Success! %1 was successfully updated</source>
         <translation type="unfinished"></translation>
     </message>
     <message id="app_item.installer">
-        <location filename="../qml/pages/AppList.qml" line="120"/>
+        <location filename="../qml/pages/AppList.qml" line="145"/>
         <source>Installer: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -62,6 +66,7 @@
     </message>
     <message id="global.save">
         <location filename="../qml/pages/CheckerPage.qml" line="96"/>
+        <location filename="../qml/pages/DetailPage.qml" line="18"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
@@ -76,7 +81,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message id="checker.aas_running">
-        <location filename="../qml/pages/AppList.qml" line="45"/>
+        <location filename="../qml/pages/AppList.qml" line="49"/>
         <location filename="../qml/pages/CheckerPage.qml" line="108"/>
         <source>Android AppSupport is currently running. Stop it first before continuing.</source>
         <oldsource>Android AppSupport is currently running. Stop it first, then retry.</oldsource>
@@ -96,6 +101,53 @@
     <message id="warning.acknowledge">
         <location filename="../qml/pages/WarningPage.qml" line="20"/>
         <source>Akcnowledge</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="global.cancel">
+        <location filename="../qml/pages/DetailPage.qml" line="20"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="detail.package_id">
+        <location filename="../qml/pages/DetailPage.qml" line="38"/>
+        <source>Package ID:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="detail.installer_id">
+        <location filename="../qml/pages/DetailPage.qml" line="55"/>
+        <source>Installer ID:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="detail.installer_name">
+        <location filename="../qml/pages/DetailPage.qml" line="71"/>
+        <source>Installer:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="detail.unknown_installer">
+        <location filename="../qml/pages/DetailPage.qml" line="82"/>
+        <source>Unknown</source>
+        <extracomment>Unknown installer, shown when the app is not installed</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="detail.change_installer">
+        <location filename="../qml/pages/DetailPage.qml" line="91"/>
+        <source>Change installer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="detail.installer">
+        <location filename="../qml/pages/DetailPage.qml" line="101"/>
+        <source>Installer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="detail.custom_installer">
+        <location filename="../qml/pages/DetailPage.qml" line="117"/>
+        <source>Custom</source>
+        <extracomment>Custom installer</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="detail.custom_installer_long">
+        <location filename="../qml/pages/DetailPage.qml" line="136"/>
+        <source>Custom installer</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
