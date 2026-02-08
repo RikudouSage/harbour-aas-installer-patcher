@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QList>
+#include <QVariantList>
 
 #include "appsettings.h"
 #include "packagesxmlhandler.h"
@@ -11,13 +12,20 @@
 class AppManager : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QVariantList apps READ apps NOTIFY appsChanged)
 public:
     explicit AppManager(AppSettings *settings, QObject *parent = nullptr);
     Q_INVOKABLE void initialize();
+    QVariantList apps() const;
+    Q_INVOKABLE bool setInstaller(const QString &package, const QString &installer);
+    Q_INVOKABLE bool syncPackages();
 
 signals:
     void errorOccurred(const QString &error);
     void initialized();
+    void appsChanged();
+    void packagesSynced();
+    void packagesNotSynced();
 
 private:
     class AndroidApp {
@@ -45,7 +53,7 @@ private:
     PackagesXmlHandler *packageXml = new PackagesXmlHandler(this);
     QMap<QString, QString> m_packageInstallerMap;
     FileHelper *fileHelper = new FileHelper(this);
-    QList<const AndroidApp> m_apps;
+    QList<AndroidApp> m_apps;
 
 private:
     bool isAndroidDesktopFile(const QString &path) const;

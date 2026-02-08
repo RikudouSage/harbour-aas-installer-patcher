@@ -39,5 +39,26 @@
         <source>There was an error while initializing the app: %1</source>
         <translation>There was an error while initializing the app: %1</translation>
     </message>
+    <message id="app_item.installer">
+        <source>Installer: %1</source>
+        <translation>Installer: %1</translation>
+    </message>
+    <message id="app.package_installer">
+        <source>Package Installer</source>
+        <extracomment>The name of the default Android package installer</extracomment>
+        <translation>Package Installer</translation>
+    </message>
+    <message id="app_list.failed_settings_installer">
+        <source>Error: Failed setting the installer, looks like the app wasn&apos;t found</source>
+        <translation>Error: Failed setting the installer, looks like the app wasn&apos;t found</translation>
+    </message>
+    <message id="app_list.failed_sync">
+        <source>Error: Failed saving the updated installer map</source>
+        <translation>Error: Failed saving the updated installer map</translation>
+    </message>
+    <message id="app_list.package_success">
+        <source>Success! %1 was successfully updated</source>
+        <translation>Success! %1 was successfully updated</translation>
+    </message>
 </context>
 </TS>

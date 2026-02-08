@@ -5,12 +5,15 @@
 #include <QMap>
 #include <QFile>
 
+typedef QMap<QString, QString> PackageInstallerMap;
+
 class PackagesXmlHandler : public QObject
 {
     Q_OBJECT
 public:
     explicit PackagesXmlHandler(QObject *parent = nullptr);
-    const QMap<QString, QString> packageInstallerMap(const QByteArray &fileContent) const;
+    const PackageInstallerMap packageInstallerMap(const QByteArray &fileContent) const;
+    const QByteArray updateInstallerMap(const QByteArray &fileContent, PackageInstallerMap updatedMap);
 
 signals:
 

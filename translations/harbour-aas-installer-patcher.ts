@@ -14,9 +14,35 @@
         <source>AAS Installer Patcher</source>
         <translation type="unfinished"></translation>
     </message>
+    <message id="app.package_installer">
+        <location filename="../qml/pages/AppList.qml" line="15"/>
+        <source>Package Installer</source>
+        <extracomment>The name of the default Android package installer</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
     <message id="app_list.title">
-        <location filename="../qml/pages/AppList.qml" line="7"/>
+        <location filename="../qml/pages/AppList.qml" line="22"/>
         <source>App list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="app_list.failed_settings_installer">
+        <location filename="../qml/pages/AppList.qml" line="61"/>
+        <source>Error: Failed setting the installer, looks like the app wasn&apos;t found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="app_list.failed_sync">
+        <location filename="../qml/pages/AppList.qml" line="67"/>
+        <source>Error: Failed saving the updated installer map</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="app_list.package_success">
+        <location filename="../qml/pages/AppList.qml" line="72"/>
+        <source>Success! %1 was successfully updated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="app_item.installer">
+        <location filename="../qml/pages/AppList.qml" line="111"/>
+        <source>Installer: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message id="checker.detecting">

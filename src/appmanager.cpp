@@ -34,10 +34,65 @@ void AppManager::initialize()
             }
         }
 
+        emit appsChanged();
         emit initialized();
     } catch (const QString &error) {
         emit errorOccurred(error);
         qDebug() << error;
+    }
+}
+
+QVariantList AppManager::apps() const
+{
+    QVariantList result;
+    result.reserve(m_apps.size());
+
+    for (const auto &app : m_apps) {
+        QVariantMap appMap;
+        appMap.insert("name", app.name());
+        appMap.insert("package", app.package());
+        appMap.insert("icon", app.icon());
+        appMap.insert("installer", app.installer());
+        result.append(appMap);
+    }
+
+    return result;
+}
+
+bool AppManager::setInstaller(const QString &package, const QString &installer)
+{
+    auto changed = false;
+    for (auto &app : m_apps) {
+        if (app.package() != package) {
+            continue;
+        }
+
+        changed = true;
+        app.setInstaller(installer);
+        emit appsChanged();
+        m_packageInstallerMap[package] = installer;
+        break;
+    }
+
+    return changed;
+}
+
+bool AppManager::syncPackages()
+{
+    try {
+        if (!fileHelper->fileExists(m_settings->packagesXmlPath())) {
+            throw QString("The packages.xml config file at '" + m_settings->packagesXmlPath() + "' does not exist");
+        }
+
+        const auto xmlPath = m_settings->packagesXmlPath();
+        const auto fileContent = fileHelper->readFile(xmlPath);
+        const auto updated = packageXml->updateInstallerMap(fileContent, m_packageInstallerMap);
+
+        return fileHelper->writeToFile(xmlPath, updated);
+    }  catch (const QString &error) {
+        qDebug() << error;
+        emit errorOccurred(error);
+        return false;
     }
 }
 

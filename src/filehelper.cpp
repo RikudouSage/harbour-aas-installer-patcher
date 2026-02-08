@@ -41,7 +41,26 @@ const QByteArray FileHelper::readFile(const QString &path)
     }
 
     throw QString("The file '%1' could not be read. Local error: %2. Daemon error: %3")
-        .arg(path, localError, daemonError);
+            .arg(path, localError, daemonError);
+}
+
+bool FileHelper::writeToFile(const QString &path, const QByteArray &content)
+{
+    QFile file(path);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
+        return file.write(content) == content.size();
+    }
+
+    const auto localError = file.errorString();
+    QString daemonError;
+
+    auto result = daemonWriteFile(path, content, &daemonError);
+    if (daemonError.isEmpty()) {
+        return result;
+    }
+
+    throw QString("The file '%1' could not be written to. Local error: %2. Daemon error: %3")
+            .arg(path, localError, daemonError);
 }
 
 bool FileHelper::daemonFileExists(const QString &path) const
@@ -87,5 +106,33 @@ QByteArray FileHelper::daemonReadFile(const QString &path, QString *errorMessage
     if (errorMessage) {
         errorMessage->clear();
     }
+    return reply.value();
+}
+
+bool FileHelper::daemonWriteFile(const QString &path, const QByteArray &content, QString *errorMessage)
+{
+    const auto bus = QDBusConnection::systemBus();
+    if (!bus.isConnected()) {
+        if (errorMessage) {
+            *errorMessage = QStringLiteral("system DBus is not connected");
+        }
+        return false;
+    }
+
+    QDBusInterface daemon(kServiceName, kObjectPath, kInterfaceName, bus);
+    const QDBusReply<bool> reply = daemon.call("writeFile", path, content);
+
+    if (!reply.isValid()) {
+        if (errorMessage) {
+            *errorMessage = QString("%1 (%2)").arg(reply.error().message(), reply.error().name());
+        }
+        qWarning() << "Daemon writeFile call failed for" << path << ":" << reply.error().message();
+        return false;
+    }
+
+    if (errorMessage) {
+        errorMessage->clear();
+    }
+
     return reply.value();
 }

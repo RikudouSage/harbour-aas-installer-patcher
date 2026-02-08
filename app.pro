@@ -24,12 +24,16 @@ HEADERS += \
 
 DISTFILES += qml/harbour-aas-installer-patcher.qml \
     qml/components/DefaultPage.qml \
+    qml/components/NotificationBanner.qml \
+    qml/components/NotificationStack.qml \
     qml/components/SafePage.qml \
     qml/components/StandardLabel.qml \
     qml/cover/CoverPage.qml \
     qml/pages/AppList.qml \
     qml/pages/CheckerPage.qml \
     qml/pages/ErrorPage.qml \
+    qml/js/arrays.js \
+    qml/js/objects.js \
     rpm/harbour-aas-installer-patcher.changes.in \
     rpm/harbour-aas-installer-patcher.changes.run.in \
     rpm/harbour-aas-installer-patcher.spec \

@@ -1,6 +1,7 @@
 #include "packagesxmlhandler.h"
 
 #include <QXmlStreamReader>
+#include <QXmlStreamWriter>
 
 #include <cstring>
 #include <sstream>
@@ -13,16 +14,24 @@ PackagesXmlHandler::PackagesXmlHandler(QObject *parent) : QObject(parent)
 
 }
 
-const QMap<QString, QString> PackagesXmlHandler::packageInstallerMap(const QByteArray &fileContent) const
+const PackageInstallerMap PackagesXmlHandler::packageInstallerMap(const QByteArray &fileContent) const
 {
     auto xmlBytes = fileContent;
     if (isAbx(fileContent)) {
         xmlBytes = convertFromAbx(xmlBytes);
     }
 
+#ifdef QT_DEBUG
+    QFile tmpOut("/tmp/packages.orig.xml");
+    if (tmpOut.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
+        tmpOut.write(xmlBytes);
+        tmpOut.close();
+    }
+#endif
+
     QXmlStreamReader xml(xmlBytes);
 
-    QMap<QString, QString> result;
+    PackageInstallerMap result;
     while (!xml.atEnd()) {
         xml.readNext();
 
@@ -47,6 +56,107 @@ const QMap<QString, QString> PackagesXmlHandler::packageInstallerMap(const QByte
     }
 
     return result;
+}
+
+const QByteArray PackagesXmlHandler::updateInstallerMap(const QByteArray &fileContent,PackageInstallerMap updatedMap)
+{
+    auto wasAbx = false;
+
+    QByteArray xmlBytes = fileContent;
+    if (isAbx(fileContent)) {
+        wasAbx = true;
+        xmlBytes = convertFromAbx(xmlBytes);
+    }
+
+    QXmlStreamReader reader(xmlBytes);
+
+    QByteArray outputBytes;
+    QXmlStreamWriter writer(&outputBytes);
+    writer.setAutoFormatting(true);
+
+    while (!reader.atEnd()) {
+        reader.readNext();
+
+        if (reader.isStartDocument()) {
+            writer.writeStartDocument();
+            continue;
+        }
+
+        if (reader.isEndDocument()) {
+            writer.writeEndDocument();
+            continue;
+        }
+
+        if (reader.isStartElement()) {
+            const QString elementName = reader.name().toString();
+
+            if (elementName == "package") {
+                auto attributes = reader.attributes();
+
+                QString packageName = attributes.value("name").toString();
+
+                if (updatedMap.contains(packageName)) {
+                    QString newInstaller = updatedMap.value(packageName);
+
+                    QXmlStreamAttributes newAttrs;
+                    for (const auto &attr : attributes) {
+                        if (attr.name() == "installer") {
+                            continue;
+                        }
+                        newAttrs.append(attr);
+                    }
+
+                    newAttrs.append("installer", newInstaller);
+
+                    writer.writeStartElement("package");
+                    writer.writeAttributes(newAttrs);
+                }
+                else {
+                    writer.writeStartElement("package");
+                    writer.writeAttributes(attributes);
+                }
+
+                continue;
+            }
+
+            writer.writeStartElement(elementName);
+            writer.writeAttributes(reader.attributes());
+            continue;
+        }
+
+        if (reader.isEndElement()) {
+            writer.writeEndElement();
+            continue;
+        }
+
+        if (reader.isCharacters()) {
+            writer.writeCharacters(reader.text().toString());
+            continue;
+        }
+
+        if (reader.isComment()) {
+            writer.writeComment(reader.text().toString());
+            continue;
+        }
+    }
+
+    if (reader.hasError()) {
+        throw QString("XML parse error: %1").arg(reader.errorString());
+    }
+
+#ifdef QT_DEBUG
+    QFile tmpOut("/tmp/packages.out.xml");
+    if (tmpOut.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
+        tmpOut.write(outputBytes);
+        tmpOut.close();
+    }
+#endif
+
+    if (wasAbx) {
+        return convertToAbx(outputBytes);
+    }
+
+    return outputBytes;
 }
 
 bool PackagesXmlHandler::isAbx(const QByteArray &fileContent) const
