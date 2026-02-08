@@ -5,6 +5,11 @@ import "pages"
 import "components"
 
 ApplicationWindow {
+    property bool appSupportRunning: aasChecker.appSupportRunning
+    property bool appSupportStateReady: aasChecker.stateReady
+
+    id: app
+
     initialPage: Component { CheckerPage { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     allowedOrientations: defaultAllowedOrientations
@@ -17,5 +22,9 @@ ApplicationWindow {
             top: parent.top
             topMargin: Theme.paddingLarge * 3
         }
+    }
+
+    AasChecker {
+        id: aasChecker
     }
 }

@@ -1,6 +1,5 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import Nemo.DBus 2.0
 
 import "../components"
 
@@ -9,12 +8,44 @@ DefaultPage {
         "/home/.appsupport/instance/defaultuser/data/system/packages.xml",
         "/home/.android/data/system/packages.xml"
     ];
-    readonly property var appSupportSystemServiceCandidates: [
-        "appsupport@defaultuser.service",
-        "aliendalvik.service"
-    ];
-    property string appSupportState: ""
-    property bool appSupportRunning: appSupportState === "active" || appSupportState === "activating" || appSupportState === "deactivating"
+    property bool appSupportRunning: app.appSupportRunning
+    property bool appSupportStateReady: app.appSupportStateReady
+    property bool initializationRequested: false
+    property bool initialized: false
+
+    function navigateToMainIfReady() {
+        if (initialized && appSupportStateReady && !appSupportRunning) {
+            safeCall(function() {
+                pageStack.replace("AppList.qml");
+            });
+        }
+    }
+
+    function initializeIfReady() {
+        if (!settings.packagesXmlPath) {
+            loading = false;
+            return;
+        }
+
+        if (!appSupportStateReady) {
+            loading = true;
+            return;
+        }
+
+        if (appSupportRunning) {
+            loading = false;
+            return;
+        }
+
+        if (initialized || initializationRequested) {
+            navigateToMainIfReady();
+            return;
+        }
+
+        initializationRequested = true;
+        loading = true;
+        appManager.initialize();
+    }
 
     //% "Loading..."
     title: qsTrId("global.loading")
@@ -26,16 +57,13 @@ DefaultPage {
         target: appManager
 
         onInitialized: {
-            safeCall(function() {
-                if (appSupportRunning) {
-                    loading = false;
-                    return;
-                }
-                pageStack.replace("AppList.qml");
-            });
+            initializationRequested = false;
+            initialized = true;
+            navigateToMainIfReady();
         }
 
         onErrorOccurred: {
+            initializationRequested = false;
             safeCall(function() {
                 pageStack.replace("ErrorPage.qml", {error: error});
             });
@@ -69,11 +97,8 @@ DefaultPage {
         visible: !loading && !settings.packagesXmlPath
 
         onClicked: {
-            loading = true;
             settings.packagesXmlPath = text;
-            checkAppSupportAndContinue(function() {
-                pageStack.replace("AppList.qml");
-            });
+            initializeIfReady();
         }
     }
 
@@ -83,138 +108,17 @@ DefaultPage {
         visible: !loading && appSupportRunning
     }
 
-    Button {
-        //% "Retry"
-        text: qsTrId("checker.retry")
-        visible: !loading && appSupportRunning
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        onClicked: {
-            loading = true;
-            checkAppSupportAndContinue(function() {
-                if (settings.packagesXmlPath) {
-                    appManager.initialize();
-                } else {
-                    loading = false;
-                }
-            });
-        }
+    onAppSupportStateReadyChanged: {
+        initializeIfReady();
     }
 
-    DBusInterface {
-        id: appSupportSystemService
-
-        bus: DBus.SystemBus
-        service: "org.freedesktop.systemd1"
-        iface: "org.freedesktop.systemd1.Unit"
-    }
-
-    DBusInterface {
-        id: systemdManager
-
-        bus: DBus.SystemBus
-        service: "org.freedesktop.systemd1"
-        path: "/org/freedesktop/systemd1"
-        iface: "org.freedesktop.systemd1.Manager"
-    }
-
-    function resolveUnitState(managerInterface, unitInterface, serviceNames, onResolved) {
-        var remainingCandidates = serviceNames.slice(0);
-
-        function tryResolveUnitPath() {
-            if (remainingCandidates.length === 0) {
-                unitInterface.path = "";
-                onResolved("");
-                return;
-            }
-
-            var serviceName = remainingCandidates.shift();
-            managerInterface.typedCall(
-                "GetUnit",
-                [{ "type": "s", "value": serviceName }],
-                function(unitPath) {
-                    unitInterface.path = unitPath;
-                    onResolved(unitInterface.getProperty("ActiveState") || "");
-                },
-                function() {
-                    tryResolveUnitPath();
-                }
-            );
+    onAppSupportRunningChanged: {
+        if (appSupportRunning) {
+            loading = false;
+            return;
         }
 
-        tryResolveUnitPath();
-    }
-
-    function isPrimaryAppSupportUnit(name) {
-        return /^appsupport@.+\.service$/.test(name)
-            || /^aliendalvik(\@.+)?\.service$/.test(name);
-    }
-
-    function findRunningAppSupportState(units) {
-        if (!units || units.length === 0) {
-            return "";
-        }
-
-        for (var index = 0; index < units.length; index++) {
-            var unit = units[index];
-            if (!unit || unit.length < 4) {
-                continue;
-            }
-
-            var name = String(unit[0]);
-            var activeState = String(unit[3] || "");
-            if (!isRunningState(activeState)) {
-                continue;
-            }
-
-            if (isPrimaryAppSupportUnit(name)) {
-                return activeState;
-            }
-        }
-
-        return "";
-    }
-
-    function resolveAppSupportState(managerInterface, unitInterface, fallbackCandidates, onResolved) {
-        managerInterface.typedCall(
-            "ListUnitsByPatterns",
-            [
-                { "type": "as", "value": [] },
-                { "type": "as", "value": ["appsupport@*.service", "aliendalvik*.service"] }
-            ],
-            function(units) {
-                var runningState = findRunningAppSupportState(units);
-                if (runningState !== "") {
-                    onResolved(runningState);
-                    return;
-                }
-
-                resolveUnitState(managerInterface, unitInterface, fallbackCandidates, onResolved);
-            },
-            function() {
-                resolveUnitState(managerInterface, unitInterface, fallbackCandidates, onResolved);
-            }
-        );
-    }
-
-    function isRunningState(state) {
-        return state === "active" || state === "activating" || state === "deactivating";
-    }
-
-    function checkAppSupportAndContinue(callback) {
-        appSupportState = "";
-        appSupportRunning = false;
-
-        resolveAppSupportState(systemdManager, appSupportSystemService, appSupportSystemServiceCandidates, function(systemState) {
-            appSupportState = systemState;
-            appSupportRunning = isRunningState(systemState);
-            if (appSupportRunning) {
-                loading = false;
-                return;
-            }
-
-            callback();
-        });
+        initializeIfReady();
     }
 
     Component.onCompleted: {
@@ -228,17 +132,14 @@ DefaultPage {
                     continue;
                 }
                 settings.packagesXmlPath = file;
-                checkAppSupportAndContinue(function() {
-                    appManager.initialize();
-                });
+                initializeIfReady();
+
                 return;
             }
 
             loading = false;
         } else {
-            checkAppSupportAndContinue(function() {
-                appManager.initialize();
-            });
+            initializeIfReady();
         }
     }
 }

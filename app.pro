@@ -23,6 +23,7 @@ HEADERS += \
     third_party/pugixml/src/pugixml.hpp
 
 DISTFILES += qml/harbour-aas-installer-patcher.qml \
+    qml/components/AasChecker.qml \
     qml/components/DefaultPage.qml \
     qml/components/NotificationBanner.qml \
     qml/components/NotificationStack.qml \

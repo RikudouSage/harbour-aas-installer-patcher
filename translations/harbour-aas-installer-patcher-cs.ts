@@ -64,9 +64,5 @@
         <source>Android AppSupport is currently running. Stop it first, then retry.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message id="checker.retry">
-        <source>Retry</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 </TS>
