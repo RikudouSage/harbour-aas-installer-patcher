@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 env:
-  OS_VERSION: 5.0.0.43
+  OS_VERSION: 4.5.0.16
 
 jobs:
   build:
@@ -34,7 +34,7 @@ jobs:
             mkdir -p build ;
             cd build ;
             cp -r /share/* . ;
-            mb2 -t SailfishOS-$OS_VERSION-${{ matrix.arch }} build harbour-aas-installer-patcher.pro ;
+            mb2 -t SailfishOS-$OS_VERSION-${{ matrix.arch }} build ;
             sudo cp -r RPMS/*.rpm /share/output"
       
     - name: Upload RPM (${{ matrix.arch }})
