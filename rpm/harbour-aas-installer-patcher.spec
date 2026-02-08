@@ -24,7 +24,7 @@ An app making it possible to change the installer of Android apps.
 
 %build
 
-%qmake5 
+%qmake5 harbour-aas-installer-patcher.pro
 
 %make_build
 
