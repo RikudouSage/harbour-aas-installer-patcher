@@ -20,7 +20,7 @@ jobs:
     name: Build App
     strategy:
       matrix:
-        arch: ['armv7hl', 'aarch64', 'i486']
+        arch: ['armv7hl', 'aarch64']
 
     steps:
     - uses: actions/checkout@v4
