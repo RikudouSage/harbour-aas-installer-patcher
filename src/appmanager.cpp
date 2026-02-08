@@ -69,7 +69,6 @@ bool AppManager::setInstaller(const QString &package, const QString &installer)
 
         changed = true;
         app.setInstaller(installer);
-        emit appsChanged();
         m_packageInstallerMap[package] = installer;
         break;
     }
@@ -88,7 +87,12 @@ bool AppManager::syncPackages()
         const auto fileContent = fileHelper->readFile(xmlPath);
         const auto updated = packageXml->updateInstallerMap(fileContent, m_packageInstallerMap);
 
-        return fileHelper->writeToFile(xmlPath, updated);
+        if (fileHelper->writeToFile(xmlPath, updated)) {
+            emit appsChanged();
+            return true;
+        }
+
+        return false;
     }  catch (const QString &error) {
         qDebug() << error;
         emit errorOccurred(error);
