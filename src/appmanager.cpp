@@ -25,8 +25,14 @@ void AppManager::initialize()
                     continue;
                 }
                 const auto parsed = parseDesktopFile(path);
+                if (!parsed.isValid()) {
+                    continue;
+                }
+
+                apps.append(parsed);
             }
         }
+
         emit initialized();
     } catch (const QString &error) {
         emit errorOccurred(error);
@@ -68,7 +74,7 @@ const AppManager::AndroidApp AppManager::parseDesktopFile(const QString &path) c
         const auto parts = line.split("=");
 
         const auto name = parts.first();
-        const auto value = parts.mid(1).join("=");
+        const auto value = parts.mid(1).join("=").trimmed();
 
         if (!app.package().isEmpty() && app.installer().isEmpty()) {
             app.setInstaller(m_packageInstallerMap[app.package()]);
@@ -97,9 +103,7 @@ void AppManager::parseInstallers()
     }
 
     const auto fileContent = fileHelper->readFile(m_settings->packagesXmlPath());
-    qDebug() << fileContent;
     m_packageInstallerMap = packageXml->packageInstallerMap(fileContent);
-    qDebug() << m_packageInstallerMap;
 }
 
 const QString AppManager::AndroidApp::name() const

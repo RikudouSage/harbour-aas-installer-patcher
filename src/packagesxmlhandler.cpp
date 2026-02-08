@@ -20,7 +20,7 @@ const QMap<QString, QString> PackagesXmlHandler::packageInstallerMap(const QByte
         xmlBytes = convertFromAbx(xmlBytes);
     }
 
-    QXmlStreamReader xml(fileContent);
+    QXmlStreamReader xml(xmlBytes);
 
     QMap<QString, QString> result;
     while (!xml.atEnd()) {

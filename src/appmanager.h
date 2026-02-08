@@ -2,6 +2,8 @@
 #define APPMANAGER_H
 
 #include <QObject>
+#include <QList>
+
 #include "appsettings.h"
 #include "packagesxmlhandler.h"
 #include "filehelper.h"
@@ -16,12 +18,6 @@ public:
 signals:
     void errorOccurred(const QString &error);
     void initialized();
-
-private:
-    const AppSettings *m_settings;
-    PackagesXmlHandler *packageXml = new PackagesXmlHandler(this);
-    QMap<QString, QString> m_packageInstallerMap;
-    FileHelper *fileHelper = new FileHelper(this);
 
 private:
     class AndroidApp {
@@ -43,6 +39,13 @@ private:
         QString m_icon;
         QString m_installer;
     };
+
+private:
+    const AppSettings *m_settings;
+    PackagesXmlHandler *packageXml = new PackagesXmlHandler(this);
+    QMap<QString, QString> m_packageInstallerMap;
+    FileHelper *fileHelper = new FileHelper(this);
+    QList<const AndroidApp> apps;
 
 private:
     bool isAndroidDesktopFile(const QString &path) const;
