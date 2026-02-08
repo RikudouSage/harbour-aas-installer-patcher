@@ -45,7 +45,7 @@ private:
     PackagesXmlHandler *packageXml = new PackagesXmlHandler(this);
     QMap<QString, QString> m_packageInstallerMap;
     FileHelper *fileHelper = new FileHelper(this);
-    QList<const AndroidApp> apps;
+    QList<const AndroidApp> m_apps;
 
 private:
     bool isAndroidDesktopFile(const QString &path) const;

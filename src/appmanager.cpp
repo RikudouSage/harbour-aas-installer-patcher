@@ -16,6 +16,7 @@ void AppManager::initialize()
     try {
         parseInstallers();
 
+        m_apps.clear();
         const auto desktopPaths = QStandardPaths::standardLocations(QStandardPaths::ApplicationsLocation);
         for (const auto &path : desktopPaths) {
             QDirIterator files(path, {"*.desktop"});
@@ -29,7 +30,7 @@ void AppManager::initialize()
                     continue;
                 }
 
-                apps.append(parsed);
+                m_apps.append(parsed);
             }
         }
 
