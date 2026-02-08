@@ -160,6 +160,7 @@ void AppManager::parseInstallers()
 
     const auto fileContent = fileHelper->readFile(m_settings->packagesXmlPath());
     m_packageInstallerMap = packageXml->packageInstallerMap(fileContent);
+    qDebug() << m_packageInstallerMap;
 }
 
 const QString AppManager::AndroidApp::name() const

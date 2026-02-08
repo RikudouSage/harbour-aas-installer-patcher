@@ -14,6 +14,7 @@ DefaultPage {
         //: The name of the default Android package installer
         //% "Package Installer"
         "com.android.packageinstaller": qsTrId("app.package_installer"),
+        "org.fdroid.fdroid": "F-Droid",
     }
     property var appsRaw: []
     property var apps: ({})
