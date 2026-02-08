@@ -34,7 +34,7 @@ jobs:
             mkdir -p build ;
             cd build ;
             cp -r /share/* . ;
-            mb2 -t SailfishOS-$OS_VERSION-${{ matrix.arch }} build ;
+            mb2 -t SailfishOS-$OS_VERSION-${{ matrix.arch }} build harbour-aas-installer-patcher.pro ;
             sudo cp -r RPMS/*.rpm /share/output"
       
     - name: Upload RPM (${{ matrix.arch }})
