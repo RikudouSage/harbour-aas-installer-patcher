@@ -5,7 +5,7 @@
     <name></name>
     <message id="global.loading">
         <location filename="../qml/components/DefaultPage.qml" line="9"/>
-        <location filename="../qml/pages/CheckerPage.qml" line="8"/>
+        <location filename="../qml/pages/CheckerPage.qml" line="9"/>
         <source>Loading...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -46,22 +46,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message id="checker.detecting">
-        <location filename="../qml/pages/CheckerPage.qml" line="10"/>
+        <location filename="../qml/pages/CheckerPage.qml" line="11"/>
         <source>Detecting Android subsystem...</source>
         <translation type="unfinished"></translation>
     </message>
     <message id="checker.no_aas">
-        <location filename="../qml/pages/CheckerPage.qml" line="37"/>
+        <location filename="../qml/pages/CheckerPage.qml" line="50"/>
         <source>Could not detect the Android packages file (packages.xml) in any of the known paths. If you know where it is, you can provide the file manually below.</source>
         <translation type="unfinished"></translation>
     </message>
     <message id="checker.path_placeholder">
-        <location filename="../qml/pages/CheckerPage.qml" line="44"/>
+        <location filename="../qml/pages/CheckerPage.qml" line="59"/>
         <source>/path/to/packages.xml</source>
         <translation type="unfinished"></translation>
     </message>
     <message id="global.save">
-        <location filename="../qml/pages/CheckerPage.qml" line="54"/>
+        <location filename="../qml/pages/CheckerPage.qml" line="69"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
@@ -73,6 +73,16 @@
     <message id="error.error">
         <location filename="../qml/pages/ErrorPage.qml" line="16"/>
         <source>There was an error while initializing the app: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="checker.aas_running">
+        <location filename="../qml/pages/CheckerPage.qml" line="84"/>
+        <source>Android AppSupport is currently running. Stop it first, then retry.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="checker.retry">
+        <location filename="../qml/pages/CheckerPage.qml" line="90"/>
+        <source>Retry</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -60,5 +60,13 @@
         <source>Success! %1 was successfully updated</source>
         <translation type="unfinished"></translation>
     </message>
+    <message id="checker.aas_running">
+        <source>Android AppSupport is currently running. Stop it first, then retry.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message id="checker.retry">
+        <source>Retry</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
