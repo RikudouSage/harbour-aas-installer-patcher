@@ -9,6 +9,11 @@
 #include <QSaveFile>
 #include <QDebug>
 
+#include <cerrno>
+#include <cstring>
+#include <sys/stat.h>
+#include <unistd.h>
+
 namespace {
 constexpr char kActionExists[] = "dev.chrastecky.aas_patcher.daemon.file_exists";
 constexpr char kActionRead[] = "dev.chrastecky.aas_patcher.daemon.read_file";
@@ -38,6 +43,11 @@ bool Daemon::writeFile(const QString &path, const QByteArray &data) {
     if (!authorize(kActionWrite)) {
         return false;
     }
+
+    const QByteArray pathBytes = QFile::encodeName(path);
+    struct stat originalStat {};
+    const bool hadOriginalFile = (::stat(pathBytes.constData(), &originalStat) == 0);
+
     QSaveFile file(path);
     if (!file.open(QIODevice::WriteOnly)) {
         sendErrorReply(QDBusError::Failed, QString("Failed to open file for writing: %1").arg(path));
@@ -52,6 +62,25 @@ bool Daemon::writeFile(const QString &path, const QByteArray &data) {
         sendErrorReply(QDBusError::Failed, QString("Failed to commit file: %1").arg(path));
         return false;
     }
+
+    if (hadOriginalFile) {
+        if (::chown(pathBytes.constData(), originalStat.st_uid, originalStat.st_gid) != 0) {
+            sendErrorReply(
+                QDBusError::Failed,
+                QString("Failed to restore owner/group for: %1 (%2)")
+                    .arg(path, QString::fromLocal8Bit(std::strerror(errno))));
+            return false;
+        }
+
+        if (::chmod(pathBytes.constData(), originalStat.st_mode & 07777) != 0) {
+            sendErrorReply(
+                QDBusError::Failed,
+                QString("Failed to restore mode for: %1 (%2)")
+                    .arg(path, QString::fromLocal8Bit(std::strerror(errno))));
+            return false;
+        }
+    }
+
     return true;
 }
 
