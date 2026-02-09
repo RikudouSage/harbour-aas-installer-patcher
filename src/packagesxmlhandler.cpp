@@ -100,13 +100,14 @@ const QByteArray PackagesXmlHandler::updateInstallerMap(const QByteArray &fileCo
 
                     QXmlStreamAttributes newAttrs;
                     for (const auto &attr : attributes) {
-                        if (attr.name() == "installer") {
+                        if (attr.name() == "installer" || attr.name() == "installInitiator") {
                             continue;
                         }
                         newAttrs.append(attr);
                     }
 
                     newAttrs.append("installer", newInstaller);
+                    newAttrs.append("installInitiator", newInstaller);
 
                     writer.writeStartElement("package");
                     writer.writeAttributes(newAttrs);
