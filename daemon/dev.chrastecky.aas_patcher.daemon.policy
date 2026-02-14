@@ -5,7 +5,7 @@
   <icon_name>package-x-generic</icon_name>
   <action id="dev.chrastecky.aas_patcher.daemon.file_exists">
     <description>Check if a file exists</description>
-    <message>Authentication is required to check whether a root-owned AAS packages.xml file exists.</message>
+    <message>Authentication is required to check whether a file exists as root. IMPORTANT: This might be dangerous. If you don't know which app is asking for this, decline this request.</message>
     <defaults>
       <allow_any>auth_admin_keep</allow_any>
       <allow_inactive>auth_admin_keep</allow_inactive>
@@ -15,7 +15,7 @@
 
   <action id="dev.chrastecky.aas_patcher.daemon.read_file">
     <description>Read a file</description>
-    <message>Authentication is required to read the contents of root-owned AAS packages.xml file.</message>
+    <message>Authentication is required to read the contents of a file as root. IMPORTANT: This might be dangerous. If you don't know which app is asking for this, decline this request.</message>
     <defaults>
       <allow_any>auth_admin_keep</allow_any>
       <allow_inactive>auth_admin_keep</allow_inactive>
@@ -25,7 +25,7 @@
 
   <action id="dev.chrastecky.aas_patcher.daemon.write_file">
     <description>Write a file</description>
-    <message>Authentication is required to write to a root-owned AAS packages.xml file.</message>
+    <message>Authentication is required to write the contents of a file as root. VERY IMPORTANT: This might be very dangerous. If you don't know which app is asking for this, decline this request.</message>
     <defaults>
       <allow_any>auth_admin_keep</allow_any>
       <allow_inactive>auth_admin_keep</allow_inactive>
